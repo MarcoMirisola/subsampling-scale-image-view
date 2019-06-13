@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.plugin.CoordinatePlugin;
 import com.davemorrissey.labs.subscaleview.test.R.id;
 import com.davemorrissey.labs.subscaleview.test.R.layout;
-import com.davemorrissey.labs.subscaleview.test.extension.views.PinView;
 
 public class ExtensionPinFragment extends Fragment {
 
@@ -24,9 +24,18 @@ public class ExtensionPinFragment extends Fragment {
                 @Override public void onClick(View v) { activity.next(); }
             });
         }
-        PinView imageView = rootView.findViewById(id.imageView);
-        imageView.setImage(ImageSource.asset("sanmartino.jpg"));
-        imageView.setPin(new PointF(1602f, 405f));
+
+        new CoordinatePlugin()
+
+        final CoordMapView imageView = rootView.findViewById(id.imageView);
+        imageView.setImage(ImageSource.asset("mappa_radicofani_new.jpg"));
+        imageView.post(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setPin(new PointF(imageView.coordinatePlugin.longitudeToX(11.769461
+                ),imageView.coordinatePlugin.latitudeToY(42.893563)),"");
+            }
+        });
         return rootView;
     }
 

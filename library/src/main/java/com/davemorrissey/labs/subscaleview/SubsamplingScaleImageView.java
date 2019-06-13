@@ -39,6 +39,7 @@ import com.davemorrissey.labs.subscaleview.decoder.ImageDecoder;
 import com.davemorrissey.labs.subscaleview.decoder.ImageRegionDecoder;
 import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.davemorrissey.labs.subscaleview.decoder.SkiaImageRegionDecoder;
+import com.davemorrissey.labs.subscaleview.plugin.CoordinatePlugin;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -211,6 +212,14 @@ public class SubsamplingScaleImageView extends View {
     private int sOrientation;
     private Rect sRegion;
     private Rect pRegion;
+
+    public int getContentWidth() {
+        return sWidth;
+    }
+
+    public int getContentHeight() {
+        return sHeight;
+    }
 
     // Is two-finger zooming in progress
     private boolean isZooming;
@@ -3091,6 +3100,10 @@ public class SubsamplingScaleImageView extends View {
             invalidate();
         }
 
+    }
+
+    public void loadCoordinatePlugin(CoordinatePlugin coordinatePlugin){
+        coordinatePlugin.
     }
 
     /**
