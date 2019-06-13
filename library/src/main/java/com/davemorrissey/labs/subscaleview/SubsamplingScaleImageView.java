@@ -3102,10 +3102,6 @@ public class SubsamplingScaleImageView extends View {
 
     }
 
-    public void loadCoordinatePlugin(CoordinatePlugin coordinatePlugin){
-        coordinatePlugin.
-    }
-
     /**
      * An event listener for animations, allows events to be triggered when an animation completes,
      * is aborted by another animation starting, or is aborted by a touch event. Note that none of
