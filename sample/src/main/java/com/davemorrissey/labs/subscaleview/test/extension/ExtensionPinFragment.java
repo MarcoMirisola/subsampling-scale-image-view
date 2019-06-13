@@ -7,11 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.davemorrissey.labs.subscaleview.plugin.CoordinatePlugin;
+import com.davemorrissey.labs.subscaleview.test.R;
 import com.davemorrissey.labs.subscaleview.test.R.id;
 import com.davemorrissey.labs.subscaleview.test.R.layout;
+import com.davemorrissey.labs.subscaleview.test.extension.views.PinView;
 
 public class ExtensionPinFragment extends Fragment {
 
@@ -25,15 +29,25 @@ public class ExtensionPinFragment extends Fragment {
             });
         }
 
-        new CoordinatePlugin()
+        final View.OnClickListener markerClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        };
 
-        final CoordMapView imageView = rootView.findViewById(id.imageView);
+
+        final PinView imageView = rootView.findViewById(id.imageView);
         imageView.setImage(ImageSource.asset("mappa_radicofani_new.jpg"));
+        imageView.configure(11.762639, 42.900583, 11.772611, 42.893028);
         imageView.post(new Runnable() {
             @Override
             public void run() {
-                imageView.setPin(new PointF(imageView.coordinatePlugin.longitudeToX(11.769461
-                ),imageView.coordinatePlugin.latitudeToY(42.893563)),"");
+                ImageView marker = new ImageView(getContext());
+                marker.setTag("item");
+                    marker.setImageResource(R.drawable.pushpin_blue);
+
+                marker.setOnClickListener(markerClickListener);
+                imageView.addMarker(marker, imageView.longitudeToX(11.772611), imageView.latitudeToY(42.900583));
             }
         });
         return rootView;

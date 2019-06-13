@@ -14,7 +14,7 @@
 
     </RelativeLayout>
 
-    <com.davemorrissey.labs.subscaleview.test.extension.views.CoordMapView
+    <com.davemorrissey.labs.subscaleview.test.extension.views.PinView
         style="@style/mainPanel" android:id="@+id/imageView"/>
 
 </RelativeLayout>

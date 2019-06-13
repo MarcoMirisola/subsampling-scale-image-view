@@ -10,18 +10,29 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.AnimationBu
 import com.davemorrissey.labs.subscaleview.test.AbstractPagesActivity;
 import com.davemorrissey.labs.subscaleview.test.Page;
 import com.davemorrissey.labs.subscaleview.test.R.id;
-import com.davemorrissey.labs.subscaleview.test.extension.views.CoordMapView;
+import com.davemorrissey.labs.subscaleview.test.extension.views.PinView;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.*;
-import static com.davemorrissey.labs.subscaleview.test.R.string.*;
-import static com.davemorrissey.labs.subscaleview.test.R.layout.*;
+import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.EASE_OUT_QUAD;
+import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.OnClickListener;
+import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.PAN_LIMIT_CENTER;
+import static com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.PAN_LIMIT_INSIDE;
+import static com.davemorrissey.labs.subscaleview.test.R.layout.animation_activity;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_p1_subtitle;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_p1_text;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_p2_subtitle;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_p2_text;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_p3_subtitle;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_p3_text;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_p4_subtitle;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_p4_text;
+import static com.davemorrissey.labs.subscaleview.test.R.string.animation_title;
 
 public class AnimationActivity extends AbstractPagesActivity {
 
-    private CoordMapView view;
+    private PinView view;
 
     public AnimationActivity() {
         super(animation_title, animation_activity, Arrays.asList(
@@ -58,7 +69,7 @@ public class AnimationActivity extends AbstractPagesActivity {
             float minScale = view.getMinScale();
             float scale = (random.nextFloat() * (maxScale - minScale)) + minScale;
             PointF center = new PointF(random.nextInt(view.getSWidth()), random.nextInt(view.getSHeight()));
-            view.setPin(center, "");
+//            view.addPin(BitmapFactory.decodeResource(this.getResources(), R.drawable.pushpin_blue), center);
             AnimationBuilder animationBuilder = view.animateScaleAndCenter(scale, center);
             if (getPage() == 3) {
                 animationBuilder.withDuration(2000).withEasing(EASE_OUT_QUAD).withInterruptible(false).start();
