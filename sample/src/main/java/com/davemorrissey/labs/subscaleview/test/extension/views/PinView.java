@@ -6,8 +6,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.davemorrissey.labs.subscaleview.test.R.drawable;
@@ -39,11 +45,20 @@ public class PinView extends SubsamplingScaleImageView implements SubsamplingSca
     private int mPixelWidth;
     private int mPixelHeight;
 
+
+    // Event listener
+    private OnMapListener onMapListener;
+
+
+
+
     public void configure(double west, double north, double east, double south) {
         mWest = west;
         mNorth = north;
         mDistanceLongitude = east - west;
         mDistanceLatitude = south - north;
+setOnStateChangedListener(this);
+
 
         this.post(new Runnable() {
             @Override
@@ -54,7 +69,35 @@ public class PinView extends SubsamplingScaleImageView implements SubsamplingSca
             }
         });
 
+        final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                if (isReady()) {
+                PointF sCoord = viewToSourceCoord(e.getX(), e.getY());
+                    for (PointF point : sPin) {
+                        if (distanceFrom(sCoord, point) < pin.getWidth()){
+                            onMapListener.onMarkerClicked();
+                        }
+                    }
+                }
+                return true;
+            }
+        });
+
+        setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return gestureDetector.onTouchEvent(motionEvent);
+            }
+        });
+
     }
+
+    private double distanceFrom(PointF pointF1, PointF pointF2){
+        return  Math.sqrt(Math.pow(pointF2.x - pointF1.x, 2) - Math.pow(pointF2.y - pointF1.y, 2));
+    }
+
+
 
     public PinView(Context context) {
         this(context, null);
@@ -130,7 +173,6 @@ public class PinView extends SubsamplingScaleImageView implements SubsamplingSca
     }
 
 
-
     /**
      * Translate longitude coordinate to an x pixel value.
      *
@@ -202,6 +244,46 @@ public class PinView extends SubsamplingScaleImageView implements SubsamplingSca
     public void onCenterChanged(PointF newCenter, int origin) {
 
     }
+
+    public void setOnMapListener(OnMapListener onMapListener) {
+        this.onMapListener = onMapListener;
+    }
+
+
+    /**
+     * An event listener, allowing activities to be notified of pan and zoom events. Initialisation
+     * and calls made by your code do not trigger events; touch events and animations do. Methods in
+     * this listener will be called on the UI thread and may be called very frequently - your
+     * implementation should return quickly.
+     */
+    @SuppressWarnings("EmptyMethod")
+    public interface OnMapListener {
+
+        void onMarkerClicked();
+        void onMapClicked();
+        void onMapReady();
+
+    }
+
+    public static class DefaultOnMapListener implements OnMapListener {
+
+
+        @Override
+        public void onMarkerClicked() {
+
+        }
+
+        @Override
+        public void onMapClicked() {
+
+        }
+
+        @Override
+        public void onMapReady() {
+
+        }
+    }
+
 
 }
 
