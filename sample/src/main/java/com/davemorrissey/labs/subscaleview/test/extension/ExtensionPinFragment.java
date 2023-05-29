@@ -2,8 +2,6 @@ package com.davemorrissey.labs.subscaleview.test.extension;
 
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
